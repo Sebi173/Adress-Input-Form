@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Upload</title>
+</head>
+<body>
+<h1>Adress Book Form</h1>
+<h3>Input manually</h3>
+    <form action="" method="post">
+        {% for field in fields %}
+        <div>
+            <label for={{field.id}}>{{field.text}}:</label><br>
+            <input type="text" id={{field.id}} name={{field.id}} value={{data[field.id]}}>
+            <span class="isa_error">{{user_feedback[field.id]}}</span>
+        </div>
+        {% endfor %}
+        <button style="margin-top:0.5cm;" name="manualSubmit" type="submit">Submit</button>
+    </form>
+    {% if message_to_user %}
+    <div style="margin-top:1cm;" for=message_to_user><ul><li>{{ message_to_user }}</li></ul></div><br>
+    {% endif %}
+    <div>
+        <a href=upload>
+            <button style="margin-top:0.5cm;" name="goToMassUpload" type="submit">Do a Mass Upload instead</button>
+        </a>
+    </div>
+</body>
+</html>

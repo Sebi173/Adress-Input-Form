@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Mass Upload</title>
+</head>
+<body style="width: 50%; margin: 0 auto;">
+    <div class="signup-form" style="margin-top: 50px;">
+        <form method="post" action="/upload" enctype="multipart/form-data">
+        <h1>Adress Book Form</h1>
+        <h3>Mass Upload</h3>
+        <div class="form-group">
+            <div class="ui-widget">
+                <label for="tags">Upload File(s):</label>
+                <input type="file" class="form-control" name="file" placeholder="select a file to upload" required>
+                <br />
+                <input type="submit" name="submit" class="btn btn-success btn-lg btn-block" value="Upload File(s)">
+            </div>
+        </div>
+        </form>
+    </div>
+    {% if message_to_user %}
+        <div class="alert alert-info" role="alert">
+            <ul><li>{{ message_to_user }}</li></ul>
+        </div>
+    {% endif %}
+    {% if user_feedback %}
+        <div class="alert alert-info" role="alert">
+            <ul>Please make the following corrections:</li>
+            {% for user_feedback_element in user_feedback %}
+                <ul><li>In row {{user_feedback_element.row}} and tag {{user_feedback_element.tag}}: {{user_feedback_element.message}}</li></ul>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div>
+        <a href=home>
+            <button style="margin-top:0.5cm;" name="goToManualUpload" type="submit">Do a Manual Upload instead</button>
+        </a>
+    </div>
+</body>
+</html>

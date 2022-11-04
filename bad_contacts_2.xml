@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<contactsList>
+	<contact>
+		<fname>Sebastian</fname>
+		<lname>Heri</lname>
+		<address>Obere Steingrubenstrasse 24</address>
+		<email>sebastian.heri@outlook.com</email>
+		<phoneNumber>0786813885</phoneNumber>
+	</contact>
+	<contact>
+		<fname>Test</fname>
+		<lname>User</lname>
+		<address>Strasse 20</address>
+		<email>test.user@test.</email>
+		<phoneNumber>079896575</phoneNumber>
+	</contact>
+	<contact>
+		<fname>Test</fname>
+		<lname>User</lname>
+		<address>Römerstrasse 2</address>
+		<email>test.usertest.com</email>
+		<phoneNumber>079896575</phoneNumber>
+	</contact>
+</contactsList>
