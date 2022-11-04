@@ -12,8 +12,9 @@ We will handle 3 different tasks in this script:
 
 views = Blueprint(__name__, 'views')
 
-fields = [{'id': 'fname', 'text': "First Name"}, {'id': 'lname', 'text': 'Last Name'}, {
+input_fields = [{'id': 'fname', 'text': "First Name"}, {'id': 'lname', 'text': 'Last Name'}, {
     'id': 'address', 'text': 'Address'}, {'id': 'email', 'text': 'Email'}, {'id': 'phoneNumber', 'text': 'Phone Number'}]
+input_ids = [field['id'] for field in input_fields]
 
 
 def check_email(user_email):
@@ -30,7 +31,7 @@ def check_email(user_email):
 
 def check_if_populated(user_input_data, user_feedback):
     '''This function checks whether the user gave his input in all fields'''
-    for field in fields:
+    for field in input_fields:
         if user_input_data.get(field['id']) == '':
             user_feedback[field['id']] = 'This field must be populated'
 
@@ -89,7 +90,7 @@ def home():
                     connection.close()
                     print("PostgreSQL connection is closed")
 
-    return render_template("index.html", data=user_input_data, user_feedback=user_feedback, fields=fields, message_to_user=message_to_user)
+    return render_template("index.html", data=user_input_data, user_feedback=user_feedback, input_fields=input_fields, message_to_user=message_to_user)
 
 
 @views.route("/upload", methods=["GET", "POST"])
@@ -101,12 +102,18 @@ def upload():
 
     if request.method == 'POST':
 
-        # Parsing the XML file
-        file = request.files['file']
-        tree = ET.parse(file)
-        root = tree.getroot()
+        try:
+            # Parsing the XML file
+            file = request.files['file']
+            tree = ET.parse(file)
+            root = tree.getroot()
 
-        # Looping over all texts and tags from the XML file
+        except Exception as error:
+            message_to_user = 'This file is not in XML format'
+            # If we get an error in the Parsing of the file, we do not want to continue, but just show the error message
+            return render_template("upload.html", message_to_user=message_to_user, user_feedback=user_feedback)
+
+            # Looping over all texts and tags from the XML file
         for element in root:
 
             # Will be used to gather the information of each contact as a tuple
@@ -115,6 +122,11 @@ def upload():
             for row, subelement in enumerate(element):
 
                 user_feedback_error = {}  # Will be used to gather every feedback per tag and row
+
+                if subelement.tag not in input_ids:
+                    user_feedback_error['tag'] = subelement.tag
+                    user_feedback_error['row'] = str(row)
+                    user_feedback_error['message'] = f'The tag {subelement.tag} is not a valid tag'
 
                 if subelement.tag == 'email':
                     feedback_email = check_email(subelement.text)

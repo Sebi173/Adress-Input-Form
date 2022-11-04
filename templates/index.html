@@ -10,7 +10,7 @@
 <h1>Adress Book Form</h1>
 <h3>Input manually</h3>
     <form action="" method="post">
-        {% for field in fields %}
+        {% for field in input_fields %}
         <div>
             <label for={{field.id}}>{{field.text}}:</label><br>
             <input type="text" id={{field.id}} name={{field.id}} value={{data[field.id]}}>
